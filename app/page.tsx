@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [imageDimensions, setImageDimensions] = useState<{width: number, height: number} | null>(null);
+  const [showCoordinates, setShowCoordinates] = useState(false);
+  const [clickPosition, setClickPosition] = useState<{x: number, y: number} | null>(null);
 
   useEffect(() => {
     const img = new Image();
@@ -15,6 +17,16 @@ export default function Home() {
     };
     img.src = '/website_ship.png';
   }, []);
+
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (showCoordinates) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      setClickPosition({ x, y });
+      console.log(`Position: left: '${x.toFixed(1)}%', top: '${y.toFixed(1)}%'`);
+    }
+  };
 
   if (!imageDimensions) {
     return (
@@ -28,13 +40,14 @@ export default function Home() {
   
   return (
     <div 
-      className="relative bg-black overflow-hidden mx-auto"
+      className="relative bg-black overflow-hidden mx-auto cursor-crosshair"
       style={{
         width: '100vw',
         height: '100vh',
         maxWidth: `${100 * aspectRatio}vh`,
         maxHeight: `${100 / aspectRatio}vw`,
       }}
+      onClick={handleContainerClick}
     >
       {/* Space background video */}
       <video
@@ -85,10 +98,32 @@ export default function Home() {
       
       {/* UI Elements container - positioned above the cockpit */}
       <div className="relative z-20 w-full h-full pointer-events-none">
-        {/* Future UI elements will go here */}
-        <div className="absolute top-4 left-4 text-white text-sm font-mono pointer-events-auto">
-          <p>Systems Online</p>
-        </div>
+        {/* Positioning helper toggle */}
+        <button
+          className="absolute top-4 right-4 bg-purple-600 hover:bg-purple-700 text-white text-xs px-2 py-1 rounded pointer-events-auto transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowCoordinates(!showCoordinates);
+            setClickPosition(null);
+          }}
+        >
+          {showCoordinates ? 'Hide Coordinates' : 'Show Coordinates'}
+        </button>
+
+        {/* Coordinate display */}
+        {showCoordinates && clickPosition && (
+          <div
+            className="absolute pointer-events-none bg-black bg-opacity-80 text-white text-xs p-2 rounded"
+            style={{
+              left: `${clickPosition.x}%`,
+              top: `${clickPosition.y}%`,
+              transform: 'translate(-50%, -100%)',
+            }}
+          >
+            left: '{clickPosition.x.toFixed(1)}%'<br/>
+            top: '{clickPosition.y.toFixed(1)}%'
+          </div>
+        )}
       </div>
     </div>
   );
