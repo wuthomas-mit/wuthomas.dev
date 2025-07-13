@@ -47,3 +47,19 @@ html, body {
   height: 100%;
   width: 100%;
 }
+
+@keyframes blinkFadeOut {
+  0% { opacity: 1; }       /* fully closed */
+  15% { opacity: 0.8; }    /* blink 1*/
+  25% { opacity: 1; }
+  40% { opacity: 0.6; }    /* blink 2*/
+  50% { opacity: 1; }
+  65% { opacity: 0.25; }    /* blink 3*/
+  100% { opacity: 0; }
+}
+
+
+.blink-overlay {
+  animation: blinkFadeOut 6s ease-in-out forwards;
+  background: black;
+}
