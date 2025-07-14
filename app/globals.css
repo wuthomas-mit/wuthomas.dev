@@ -58,6 +58,34 @@ html, body {
   100% { opacity: 0; }
 }
 
+@keyframes pulse-box {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.6), 0 0 90px rgba(59, 130, 246, 0.4);
+  }
+}
+
+@keyframes hologram-button {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.4);
+  }
+}
+
+@keyframes pulse-filter {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.7))
+            drop-shadow(0 0 14px rgba(0, 255, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.8))
+            drop-shadow(0 0 28px rgba(0, 255, 255, 0.6));
+  }
+}
 
 .blink-overlay {
   animation: blinkFadeOut 6s ease-in-out forwards;
