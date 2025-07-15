@@ -5,7 +5,56 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [imageDimensions, setImageDimensions] = useState<{width: number, height: number} | null>(null);
   const [selectedMenu, setSelectedMenu] = useState(0);
-  const [showHologram, setShowHologram] = useState(false);
+  const [showHologram, setShowHologram] = useState(false); // Hidden initially
+  const [showDialog, setShowDialog] = useState(false);
+  const [currentText, setCurrentText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [currentHologramImage, setCurrentHologramImage] = useState('smile-holo.png');
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+
+  const hologramImages = ['closed-holo.png', 'open-holo.png', 'wide-holo.png'];
+  const dialogSentences = [
+    "Hello! I'm Thomas's holographic assistant.",
+    "Welcome to his digital cockpit.",
+    "I can help you navigate through his projects and learn more about his work.",
+    "What would you like to explore?"
+  ];
+
+  // Typewriter effect for current sentence
+  useEffect(() => {
+    if (!isTyping || !showDialog || currentSentenceIndex >= dialogSentences.length) return;
+
+    const currentSentence = dialogSentences[currentSentenceIndex];
+    let currentIndex = 0;
+    
+    const interval = setInterval(() => {
+      if (currentIndex <= currentSentence.length) {
+        setCurrentText(currentSentence.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        setIsTyping(false);
+        setCurrentHologramImage('smile-holo.png'); // Return to default
+        clearInterval(interval);
+      }
+    }, 50); // Typing speed
+
+    return () => clearInterval(interval);
+  }, [isTyping, showDialog, currentSentenceIndex]);
+
+  // Cycle through hologram images while typing
+  useEffect(() => {
+    if (!isTyping) return;
+
+    const interval = setInterval(() => {
+      setCurrentHologramImage(prev => {
+        const currentIndex = hologramImages.indexOf(prev);
+        const nextIndex = (currentIndex + 1) % hologramImages.length;
+        return hologramImages[nextIndex];
+      });
+    }, 150); // Change image every __
+
+    return () => clearInterval(interval);
+  }, [isTyping]);
 
   useEffect(() => {
     const img = new Image();
@@ -125,7 +174,28 @@ export default function Home() {
           <button
             onClick={() => {
               console.log('Hologram button clicked!');
-              setShowHologram(!showHologram);
+              if (!showHologram) {
+                // First click - show hologram and start dialog
+                setShowHologram(true);
+                setShowDialog(true);
+                setIsTyping(true);
+                setCurrentText('');
+                setCurrentSentenceIndex(0);
+              } else if (!showDialog) {
+                // Hologram visible but no dialog - start dialog
+                setShowDialog(true);
+                setIsTyping(true);
+                setCurrentText('');
+                setCurrentSentenceIndex(0);
+              } else {
+                // Dialog is open - close everything
+                setShowDialog(false);
+                setIsTyping(false);
+                setCurrentText('');
+                setShowHologram(false);
+                setCurrentHologramImage('smile-holo.png');
+                setCurrentSentenceIndex(0);
+              }
             }}
             className="relative group w-10 h-4 bg-yellow-500 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
@@ -157,7 +227,7 @@ export default function Home() {
               }}
             >
               <img
-                src="/me-hologram-smile.png"
+                src={`/hologram/${currentHologramImage}`}
                 alt="Hologram"
                 className="object-contain"
                 style={{
@@ -172,6 +242,67 @@ export default function Home() {
                   imageRendering: 'crisp-edges',
                 }}
               />
+            </div>
+          )}
+
+          {/* Dialog Box */}
+          {showDialog && (
+            <div 
+              className="absolute pointer-events-auto"
+              style={{
+                left: '50%',
+                bottom: '120%',
+                transform: 'translateX(-50%)',
+                marginBottom: '20px',
+                minWidth: '300px',
+                maxWidth: '400px',
+              }}
+            >
+              <div 
+                className="bg-black bg-opacity-80 border border-cyan-400 rounded-lg p-4"
+                style={{
+                  boxShadow: '0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                }}
+              >
+                <div className="text-cyan-300 text-sm leading-relaxed">
+                  {currentText}
+                  {isTyping && (
+                    <span className="inline-block w-2 h-4 bg-cyan-400 ml-1 animate-pulse">|</span>
+                  )}
+                </div>
+                
+                {/* Action buttons */}
+                <div className="mt-3 flex gap-2">
+                  {!isTyping && currentText && currentSentenceIndex < dialogSentences.length - 1 && (
+                    <button
+                      onClick={() => {
+                        setCurrentSentenceIndex(prev => prev + 1);
+                        setIsTyping(true);
+                        setCurrentText('');
+                      }}
+                      className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs rounded transition-colors duration-200"
+                    >
+                      Next
+                    </button>
+                  )}
+                  
+                  {!isTyping && currentText && (
+                    <button
+                      onClick={() => {
+                        setShowDialog(false);
+                        setCurrentText('');
+                        setShowHologram(false);
+                        setCurrentHologramImage('smile-holo.png');
+                        setCurrentSentenceIndex(0);
+                      }}
+                      className="px-3 py-1 bg-red-600 hover:bg-red-500 text-white text-xs rounded transition-colors duration-200"
+                    >
+                      {currentSentenceIndex >= dialogSentences.length - 1 ? 'Close' : 'Skip'}
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           )}
         </div>
