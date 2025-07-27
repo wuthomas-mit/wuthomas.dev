@@ -8,7 +8,7 @@ const dialogSentences = [
   "My name is Thomas Wu.",
   "I'm a rising senior at MIT studying Computer Science.",
   "Let me show you what I've done and where I've been.",
-  "To explore, click on the map and begin our journey."
+  "To explore, click on the navigation button to begin your journey!"
 ];
 
 export default function Home() {
@@ -299,6 +299,42 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* Navigate Button */}
+        <div className="absolute pointer-events-auto" style={{ 
+          left: '50.75%', 
+          top: '70.5%', 
+          transform: 'translate(-50%, -50%)' 
+        }}>
+          <button
+            onClick={() => {
+              console.log('Navigate button clicked!');
+            }}
+            className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
+            style={{
+              width: '4.75vw',
+              height: '6vw',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              border: '2px solid #FFD700',
+              borderRadius: '8px',
+              boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
+            }}
+          >
+            <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></div>
+            
+            <div className="relative flex items-center justify-center w-full h-full">
+              <img
+                src="/icons/navigate.png"
+                alt="Navigate"
+                className="object-contain"
+                style={{
+                  width: '2.5vw',
+                  height: '2.5vw',
+                }}
+              />
+            </div>
+          </button>
+        </div>
       </div>
       {/* Blinking screen overlay */}
       <div className="absolute inset-0 z-30 w-full h-full blink-overlay pointer-events-none"></div>
