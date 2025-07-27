@@ -330,8 +330,8 @@ export default function Home() {
 
         {/* Navigate Button */}
         <div className="absolute pointer-events-auto" style={{ 
-          left: '50.75%', 
-          top: '70.5%', 
+          left: '50%', 
+          top: '70.75%', 
           transform: 'translate(-50%, -50%)' 
         }}>
           <button
@@ -341,7 +341,7 @@ export default function Home() {
             }}
             className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
-              width: '4.75vw',
+              width: '11.5vw',
               height: '6vw',
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
               border: '2px solid #FFD700',
@@ -421,7 +421,7 @@ export default function Home() {
             className="absolute inset-0 flex items-center justify-center z-40 pointer-events-auto"
             style={{
               backgroundColor: 'rgba(0, 0, 0, 0.9)',
-              backdropFilter: 'blur(5px)',
+              backdropFilter: 'blur(0.5vw)',
             }}
           >
             <div className="relative">
@@ -429,9 +429,9 @@ export default function Home() {
               <div 
                 className="relative inline-block"
                 style={{
-                  border: '3px solid #00FFFF',
+                  border: '0.3vw solid #00FFFF',
                   backgroundColor: 'rgba(0, 20, 40, 0.95)',
-                  boxShadow: '0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 30px rgba(0, 255, 255, 0.1)',
+                  boxShadow: '0 0 3vw rgba(0, 255, 255, 0.5), inset 0 0 3vw rgba(0, 255, 255, 0.1)',
                   background: 'linear-gradient(135deg, rgba(0, 50, 100, 0.8) 0%, rgba(0, 20, 60, 0.9) 100%)',
                   padding: '1.5vw',
                   borderRadius: '1.5vw',
@@ -439,13 +439,14 @@ export default function Home() {
               >
                 {/* Top Frame Elements */}
                 <div 
-                  className="absolute -top-2 left-1/2 transform -translate-x-1/2"
+                  className="absolute left-1/2 transform -translate-x-1/2"
                   style={{
+                    top: '-0.2vw',
                     width: '12vw',
                     height: '1.2vw',
                     backgroundColor: '#00FFFF',
                     clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
-                    boxShadow: '0 0 15px rgba(0, 255, 255, 0.8)',
+                    boxShadow: '0 0 1.5vw rgba(0, 255, 255, 0.8)',
                   }}
                 />
 
@@ -469,10 +470,12 @@ export default function Home() {
                     alt="Stellar Nursery"
                     className="block rounded-lg"
                     style={{
-                      maxWidth: '80vw',
-                      maxHeight: '70vh',
-                      filter: 'brightness(1.1) contrast(1.2) drop-shadow(0 0 20px rgba(0, 255, 255, 0.3))',
-                      border: '1px solid rgba(0, 255, 255, 0.3)',
+                      width: 'min(80vw, 850px)',
+                      height: 'auto',
+                      maxHeight: 'min(60vh, 600px)',
+                      objectFit: 'cover',
+                      filter: 'brightness(1.1) contrast(1.2) drop-shadow(0 0 2vw rgba(0, 255, 255, 0.3))',
+                      border: '0.1vw solid rgba(0, 255, 255, 0.3)',
                       borderRadius: '1.5vw',
                     }}
                   />
@@ -480,16 +483,18 @@ export default function Home() {
                   {/* Close Button */}
                   <button
                     onClick={() => setShowNavigationScreen(false)}
-                    className="absolute -top-2 -right-2 flex items-center justify-center text-cyan-400 hover:text-white transition-colors duration-300"
+                    className="absolute flex items-center justify-center text-cyan-400 hover:text-white transition-colors duration-300"
                     style={{
-                      width: '2vw',
-                      height: '2vw',
+                      top: '-1vw',
+                      right: '-1vw',
+                      width: '3vw',
+                      height: '3vw',
                       backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                      border: '1px solid #00FFFF',
+                      border: '0.1vw solid #00FFFF',
                       borderRadius: '50%',
-                      fontSize: '1vw',
+                      fontSize: '1.5vw',
                       fontWeight: 'bold',
-                      boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
+                      boxShadow: '0 0 1vw rgba(0, 255, 255, 0.5)',
                     }}
                   >
                     ✕
