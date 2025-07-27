@@ -23,6 +23,11 @@ export default function Projects() {
       >
         ← Back to Ship
       </Link>
+
+      {/* Under Construction Message */}
+      <h1 className="text-6xl font-bold text-cyan-400 text-center">
+        UNDER CONSTRUCTION
+      </h1>
     </div>
   );
 }
