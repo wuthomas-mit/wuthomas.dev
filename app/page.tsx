@@ -22,6 +22,7 @@ export default function Home() {
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [showNavigationScreen, setShowNavigationScreen] = useState(false);
 
   // Audio refs
   const spaceAudioRef = useRef<HTMLAudioElement>(null);
@@ -336,6 +337,7 @@ export default function Home() {
           <button
             onClick={() => {
               console.log('Navigate button clicked!');
+              setShowNavigationScreen(true);
             }}
             className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
@@ -412,6 +414,91 @@ export default function Home() {
             </div>
           </button>
         </div>
+
+        {/* Navigation Screen Overlay */}
+        {showNavigationScreen && (
+          <div 
+            className="absolute inset-0 flex items-center justify-center z-40 pointer-events-auto"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              backdropFilter: 'blur(5px)',
+            }}
+          >
+            <div className="relative">
+              {/* Futuristic Screen Frame that fits the image */}
+              <div 
+                className="relative inline-block"
+                style={{
+                  border: '3px solid #00FFFF',
+                  backgroundColor: 'rgba(0, 20, 40, 0.95)',
+                  boxShadow: '0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 30px rgba(0, 255, 255, 0.1)',
+                  background: 'linear-gradient(135deg, rgba(0, 50, 100, 0.8) 0%, rgba(0, 20, 60, 0.9) 100%)',
+                  padding: '1.5vw',
+                  borderRadius: '1.5vw',
+                }}
+              >
+                {/* Top Frame Elements */}
+                <div 
+                  className="absolute -top-2 left-1/2 transform -translate-x-1/2"
+                  style={{
+                    width: '12vw',
+                    height: '1.2vw',
+                    backgroundColor: '#00FFFF',
+                    clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
+                    boxShadow: '0 0 15px rgba(0, 255, 255, 0.8)',
+                  }}
+                />
+
+                {/* Grid Pattern Background */}
+                <div 
+                  className="absolute inset-0 opacity-20 pointer-events-none"
+                  style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '2.5vw 2.5vw',
+                    borderRadius: '1.5vw',
+                  }}
+                />
+
+                {/* Stellar Nursery Image Container */}
+                <div className="relative inline-block">
+                  <img
+                    src="/stellar_nursery.jpg"
+                    alt="Stellar Nursery"
+                    className="block rounded-lg"
+                    style={{
+                      maxWidth: '80vw',
+                      maxHeight: '70vh',
+                      filter: 'brightness(1.1) contrast(1.2) drop-shadow(0 0 20px rgba(0, 255, 255, 0.3))',
+                      border: '1px solid rgba(0, 255, 255, 0.3)',
+                      borderRadius: '1.5vw',
+                    }}
+                  />
+
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setShowNavigationScreen(false)}
+                    className="absolute -top-2 -right-2 flex items-center justify-center text-cyan-400 hover:text-white transition-colors duration-300"
+                    style={{
+                      width: '2vw',
+                      height: '2vw',
+                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                      border: '1px solid #00FFFF',
+                      borderRadius: '50%',
+                      fontSize: '1vw',
+                      fontWeight: 'bold',
+                      boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Audio elements */}
