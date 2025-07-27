@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAudioManager } from './hooks/useAudioManager';
 
 const hologramImages = ['closed-holo.png', 'open-holo.png', 'wide-holo.png'];
 const dialogSentences = [
@@ -31,9 +32,8 @@ export default function Home() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [destinationInfo, setDestinationInfo] = useState({ path: '', name: '' });
 
-  // Audio refs
-  const spaceAudioRef = useRef<HTMLAudioElement>(null);
-  const typingAudioRef = useRef<HTMLAudioElement>(null);
+  // Audio management using custom hook
+  const { spaceAudioRef, typingAudioRef } = useAudioManager({ isMuted, isTyping });
 
   // Function to handle navigation with confirmation
   const handleNavigation = (path: string, name: string) => {
@@ -157,28 +157,6 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [isTyping]);
-
-  // Audio management for background space audio
-  useEffect(() => {
-    if (!spaceAudioRef.current) return;
-
-    if (!isMuted) {
-      spaceAudioRef.current.play().catch(console.error);
-    } else {
-      spaceAudioRef.current.pause();
-    }
-  }, [isMuted]);
-
-  // Audio management for typing sound
-  useEffect(() => {
-    if (!typingAudioRef.current) return;
-
-    if (!isMuted && isTyping) {
-      typingAudioRef.current.play().catch(console.error);
-    } else {
-      typingAudioRef.current.pause();
-    }
-  }, [isMuted, isTyping]);
 
   useEffect(() => {
     const img = new Image();
