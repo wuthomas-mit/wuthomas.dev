@@ -124,7 +124,6 @@ export const HologramDialog = ({
   }, [isTyping]);
 
   const handleHologramButtonClick = () => {
-    console.log('Hologram button clicked!');
     if (!showHologram) {
       setShowHologram(true);
       setShowDialog(true);

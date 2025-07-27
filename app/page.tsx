@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useAudioManager } from './hooks/useAudioManager';
+import { useNavigationState } from './hooks/useNavigationState';
+import { useImageDimensions } from './hooks/useImageDimensions';
+import { useUserSession } from './hooks/useUserSession';
 import { HologramDialog } from './components/HologramDialog';
 import { NavigationScreen } from './components/NavigationScreen';
 import { NavigationConfirmation } from './components/NavigationConfirmation';
@@ -11,17 +13,23 @@ import { VolumeButton } from './components/VolumeButton';
 import { CockpitLayout } from './components/CockpitLayout';
 
 export default function Home() {
-  const router = useRouter();
-  const [imageDimensions, setImageDimensions] = useState<{width: number, height: number} | null>(null);
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
-  const [showNavigationScreen, setShowNavigationScreen] = useState(false);
-  const [isReturningUser, setIsReturningUser] = useState(false);
-  const [hasCheckedNavigation, setHasCheckedNavigation] = useState(false);
   const [isDialogueComplete, setIsDialogueComplete] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [destinationInfo, setDestinationInfo] = useState({ path: '', name: '' });
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
+
+  // Custom hooks
+  const { imageDimensions, aspectRatio, isLoading } = useImageDimensions('/website_ship.png');
+  const { isReturningUser, hasCheckedNavigation } = useUserSession();
+  const {
+    showNavigationScreen,
+    setShowNavigationScreen,
+    showConfirmation,
+    destinationInfo,
+    handleNavigation,
+    confirmNavigation,
+    cancelNavigation,
+  } = useNavigationState();
 
   // Audio management using custom hook - need isTyping for audio
   const [isTyping, setIsTyping] = useState(false);
@@ -31,69 +39,16 @@ export default function Home() {
     setIsTyping(typing);
   };
 
-  // Function to handle navigation with confirmation
-  const handleNavigation = (path: string, name: string) => {
-    setDestinationInfo({ path, name });
-    setShowConfirmation(true);
-  };
-
-  const confirmNavigation = () => {
-    sessionStorage.setItem('hasVisitedHomePage', 'true');
-    router.push(destinationInfo.path);
-    setShowConfirmation(false);
-  };
-
-  const cancelNavigation = () => {
-    setShowConfirmation(false);
-    setDestinationInfo({ path: '', name: '' });
-  };
-
-  // Check navigation type on component mount
-  useEffect(() => {
-    if (!hasCheckedNavigation) {
-      // Check if this is a fresh visit or returning from internal navigation
-      const hasVisitedBefore = sessionStorage.getItem('hasVisitedHomePage');
-      const referrer = document.referrer;
-      const currentDomain = window.location.origin;
-      
-      // If user has visited before in this session OR came from our domain, they're returning
-      if (hasVisitedBefore || (referrer && referrer.startsWith(currentDomain))) {
-        setIsReturningUser(true);
-        console.log('User is returning from another page or has visited before');
-      } else {
-        setIsReturningUser(false);
-        console.log('User opened the page fresh (new tab, bookmark, external link)');
-        // Mark that they've now visited the home page
-        sessionStorage.setItem('hasVisitedHomePage', 'true');
-      }
-      
-      setHasCheckedNavigation(true);
-    }
-  }, [hasCheckedNavigation]);
-
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      setImageDimensions({
-        width: img.naturalWidth,
-        height: img.naturalHeight
-      });
-    };
-    img.src = '/website_ship.png';
-  }, []);
-
-  if (!imageDimensions) {
+  if (isLoading) {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center">
         <div className="text-white">Loading...</div>
       </div>
     );
   }
-
-  const aspectRatio = imageDimensions.width / imageDimensions.height;
   
   return (
-    <CockpitLayout aspectRatio={aspectRatio}>
+    <CockpitLayout aspectRatio={aspectRatio!}>
       {/* UI Elements container - positioned above the cockpit */}
       <div className="relative z-20 w-full h-full pointer-events-none">
         {/* Hologram Dialog Component */}
@@ -110,7 +65,6 @@ export default function Home() {
         {/* Navigate Button */}
         <NavigateButton
           onClick={() => {
-            console.log('Navigate button clicked!');
             setShowNavigationScreen(true);
           }}
           isDialogueComplete={isDialogueComplete}
@@ -121,7 +75,6 @@ export default function Home() {
         <VolumeButton
           isMuted={isMuted}
           onToggle={() => {
-            console.log('Volume button clicked!');
             setIsMuted(!isMuted);
           }}
         />
