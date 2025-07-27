@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
+const hologramImages = ['closed-holo.png', 'open-holo.png', 'wide-holo.png'];
+const dialogSentences = [
+  "Hello! Nice to meet you!",
+  "My name is Thomas Wu.",
+  "I'm a rising senior at MIT studying Computer Science.",
+  "Let me show you what I've done and where I've been.",
+  "To explore, click on the map and begin our journey."
+];
+
 export default function Home() {
   const [imageDimensions, setImageDimensions] = useState<{width: number, height: number} | null>(null);
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -11,14 +20,23 @@ export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentHologramImage, setCurrentHologramImage] = useState('smile-holo.png');
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
-  const hologramImages = ['closed-holo.png', 'open-holo.png', 'wide-holo.png'];
-  const dialogSentences = [
-    "Hello! I'm Thomas's holographic assistant.",
-    "Welcome to his digital cockpit.",
-    "I can help you navigate through his projects and learn more about his work.",
-    "What would you like to explore?"
-  ];
+  // Auto-start hologram after blinking animation finishes (6 seconds)
+  useEffect(() => {
+    if (!hasAutoStarted) {
+      const timer = setTimeout(() => {
+        setShowHologram(true);
+        setShowDialog(true);
+        setIsTyping(true);
+        setCurrentText('');
+        setCurrentSentenceIndex(0);
+        setHasAutoStarted(true);
+      }, 6500); // 6s animation + 0.5s buffer
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasAutoStarted]);
 
   // Typewriter effect for current sentence
   useEffect(() => {
@@ -40,6 +58,32 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [isTyping, showDialog, currentSentenceIndex]);
+
+  // Auto-advance to next sentence after typing is complete, or hide dialog after last sentence
+  useEffect(() => {
+    if (!isTyping && currentText && showDialog) {
+      if (currentSentenceIndex < dialogSentences.length - 1) {
+        // More sentences to show - advance to next
+        const timer = setTimeout(() => {
+          setCurrentSentenceIndex(prev => prev + 1);
+          setIsTyping(true);
+          setCurrentText('');
+        }, 2000); // 2 second pause between sentences
+
+        return () => clearTimeout(timer);
+      } else {
+        // Last sentence finished - hide dialog after a longer pause
+        const timer = setTimeout(() => {
+          setShowDialog(false);
+          setCurrentText('');
+          setCurrentSentenceIndex(0);
+          setCurrentHologramImage('smile-holo.png');
+        }, 4000); // 4 second pause after last sentence
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isTyping, currentText, currentSentenceIndex, showDialog]);
 
   // Cycle through hologram images while typing
   useEffect(() => {
@@ -140,48 +184,29 @@ export default function Home() {
         alt="Image Caster"
         className="absolute z-20"
         style={{
-          left: '17.5%',
+          left: '18%',
           top: '50.1%',
-          width: 'auto',
-          height: 'auto',
-          maxWidth: '100px',
-          maxHeight: '100px',
+          width: '5vw',
+          height: '3vw',
         }}
       />
 
       {/* UI Elements container - positioned above the cockpit */}
       <div className="relative z-20 w-full h-full pointer-events-none">
-        {/* Tablet Button */}
-        <div className="absolute pointer-events-auto" style={{ left: '47.69%', top: '85%' }}>
-          <button
-            onClick={() => {
-              console.log('Glowing button clicked!');
-            }}
-            className="relative group w-16 h-16 rounded-full bg-blue-500 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
-            style={{
-              boxShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2)',
-              animation: 'pulse-box 2s infinite'
-            }}
-          >
-            <div className="absolute inset-0 rounded-full bg-blue-400 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-            <div className="relative flex items-center justify-center w-full h-full">
-              <div className="w-3 h-3 bg-white rounded-full opacity-90"></div>
-            </div>
-          </button>
-        </div>
         {/* Hologram Button */}
-        <div className="absolute pointer-events-auto" style={{ left: '19.5%', top: '55.5%' }}>
+        <div className="absolute pointer-events-auto" style={{ left: '19.25%', top: '55.5%' }}>
           <button
             onClick={() => {
               console.log('Hologram button clicked!');
-              if (!showHologram) {
-                // First click - show hologram and start dialog
+              if (!showHologram && !showDialog) {
+                // Show hologram and start dialog
                 setShowHologram(true);
                 setShowDialog(true);
                 setIsTyping(true);
                 setCurrentText('');
                 setCurrentSentenceIndex(0);
-              } else if (!showDialog) {
+                setHasAutoStarted(true); // Mark as manually started
+              } else if (showHologram && !showDialog) {
                 // Hologram visible but no dialog - start dialog
                 setShowDialog(true);
                 setIsTyping(true);
@@ -195,10 +220,13 @@ export default function Home() {
                 setShowHologram(false);
                 setCurrentHologramImage('smile-holo.png');
                 setCurrentSentenceIndex(0);
+                // Don't reset hasAutoStarted here - user can still manually control
               }
             }}
-            className="relative group w-10 h-4 bg-yellow-500 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+            className="relative group bg-yellow-500 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
+              width: '2.5vw',
+              height: '1vw',
               boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.2)',
               animation: 'hologram-button 2s infinite',
             }}
@@ -209,7 +237,11 @@ export default function Home() {
               <img
                 src="/message.png"
                 alt="Center Icon"
-                className="w-6 h-6 object-contain"
+                className="object-contain"
+                style={{
+                  width: '1.5vw',
+                  height: '1.5vw',
+                }}
               />
             </div>
           </button>
@@ -219,10 +251,10 @@ export default function Home() {
             <div 
               className="absolute pointer-events-none"
               style={{
-                left: '50%',
-                bottom: '200%',
+                left: '55%',
+                bottom: '250%',
                 transform: 'translateX(-50%)',
-                marginBottom: '20px',
+                marginBottom: '1vw',
                 background: 'transparent',
               }}
             >
@@ -234,7 +266,7 @@ export default function Home() {
                   animation: 'pulse-filter 2s infinite',
                   filter: 'brightness(1.2) contrast(1.1) drop-shadow(0 0 15px rgba(0, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(0, 255, 255, 0.6))',
                   maxWidth: 'none',
-                  maxHeight: '200px',
+                  maxHeight: '20vw',
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
@@ -245,70 +277,39 @@ export default function Home() {
             </div>
           )}
 
-          {/* Dialog Box */}
-          {showDialog && (
-            <div 
-              className="absolute pointer-events-auto"
-              style={{
-                left: '50%',
-                bottom: '120%',
-                transform: 'translateX(-50%)',
-                marginBottom: '20px',
-                minWidth: '300px',
-                maxWidth: '400px',
-              }}
-            >
-              <div 
-                className="bg-black bg-opacity-80 border border-cyan-400 rounded-lg p-4"
-                style={{
-                  boxShadow: '0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                }}
-              >
-                <div className="text-cyan-300 text-sm leading-relaxed">
-                  {currentText}
-                  {isTyping && (
-                    <span className="inline-block w-2 h-4 bg-cyan-400 ml-1 animate-pulse">|</span>
-                  )}
-                </div>
-                
-                {/* Action buttons */}
-                <div className="mt-3 flex gap-2">
-                  {!isTyping && currentText && currentSentenceIndex < dialogSentences.length - 1 && (
-                    <button
-                      onClick={() => {
-                        setCurrentSentenceIndex(prev => prev + 1);
-                        setIsTyping(true);
-                        setCurrentText('');
-                      }}
-                      className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs rounded transition-colors duration-200"
-                    >
-                      Next
-                    </button>
-                  )}
-                  
-                  {!isTyping && currentText && (
-                    <button
-                      onClick={() => {
-                        setShowDialog(false);
-                        setCurrentText('');
-                        setShowHologram(false);
-                        setCurrentHologramImage('smile-holo.png');
-                        setCurrentSentenceIndex(0);
-                      }}
-                      className="px-3 py-1 bg-red-600 hover:bg-red-500 text-white text-xs rounded transition-colors duration-200"
-                    >
-                      {currentSentenceIndex >= dialogSentences.length - 1 ? 'Close' : 'Skip'}
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
-
-        
+        {/* Dialog Box - positioned independently on screen */}
+        {showDialog && (
+          <div 
+            className="absolute pointer-events-auto"
+            style={{
+              left: '50%',
+              top: '8%',
+              transform: 'translateX(-50%)',
+              height: '4vw',
+            }}
+          >
+            <div 
+              className="bg-black bg-opacity-80 border border-cyan-400 rounded-lg"
+              style={{
+                padding: '.5vw',
+                boxShadow: '0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <div className="text-cyan-300 leading-relaxed whitespace-nowrap overflow-hidden" style={{ fontSize: '1vw' }}>
+                {currentText}
+                {isTyping && (
+                  <span className="inline-block bg-cyan-400 ml-1 animate-pulse" style={{
+                    width: '0.3vw',
+                    height: '1.5vw',
+                  }}>|</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {/* Blinking screen overlay */}
       <div className="absolute inset-0 z-30 w-full h-full blink-overlay pointer-events-none"></div>
