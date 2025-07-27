@@ -25,26 +25,57 @@ export default function Home() {
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [showNavigationScreen, setShowNavigationScreen] = useState(false);
+  const [isReturningUser, setIsReturningUser] = useState(false);
+  const [hasCheckedNavigation, setHasCheckedNavigation] = useState(false);
 
   // Audio refs
   const spaceAudioRef = useRef<HTMLAudioElement>(null);
   const typingAudioRef = useRef<HTMLAudioElement>(null);
 
-  // Auto-start hologram after blinking animation finishes
+  // Check navigation type on component mount
   useEffect(() => {
-    if (!hasAutoStarted) {
-      const timer = setTimeout(() => {
-        setShowHologram(true);
-        setShowDialog(true);
-        setIsTyping(true);
-        setCurrentText('');
-        setCurrentSentenceIndex(0);
-        setHasAutoStarted(true);
-      }, 6500); // 6s animation + 0.5s buffer
-
-      return () => clearTimeout(timer);
+    if (!hasCheckedNavigation) {
+      // Check if this is a fresh visit or returning from internal navigation
+      const hasVisitedBefore = sessionStorage.getItem('hasVisitedHomePage');
+      const referrer = document.referrer;
+      const currentDomain = window.location.origin;
+      
+      // If user has visited before in this session OR came from our domain, they're returning
+      if (hasVisitedBefore || (referrer && referrer.startsWith(currentDomain))) {
+        setIsReturningUser(true);
+        console.log('User is returning from another page or has visited before');
+      } else {
+        setIsReturningUser(false);
+        console.log('User opened the page fresh (new tab, bookmark, external link)');
+        // Mark that they've now visited the home page
+        sessionStorage.setItem('hasVisitedHomePage', 'true');
+      }
+      
+      setHasCheckedNavigation(true);
     }
-  }, [hasAutoStarted]);
+  }, [hasCheckedNavigation]);
+
+  // Auto-start hologram after blinking animation finishes (only for fresh visits)
+  useEffect(() => {
+    if (!hasAutoStarted && hasCheckedNavigation) {
+      // Only auto-start for new visitors, not returning users
+      if (!isReturningUser) {
+        const timer = setTimeout(() => {
+          setShowHologram(true);
+          setShowDialog(true);
+          setIsTyping(true);
+          setCurrentText('');
+          setCurrentSentenceIndex(0);
+          setHasAutoStarted(true);
+        }, 6500); // 6s animation + 0.5s buffer
+
+        return () => clearTimeout(timer);
+      } else {
+        // For returning users, mark as auto-started but don't show anything
+        setHasAutoStarted(true);
+      }
+    }
+  }, [hasAutoStarted, hasCheckedNavigation, isReturningUser]);
 
   // Typewriter effect
   useEffect(() => {
@@ -427,7 +458,7 @@ export default function Home() {
             }}
           >
             <div className="relative">
-              {/* Futuristic Screen Frame that fits the image */}
+              {/* Futuristic Screen Frame*/}
               <div 
                 className="relative inline-block"
                 style={{
@@ -435,7 +466,7 @@ export default function Home() {
                   backgroundColor: 'rgba(0, 20, 40, 0.95)',
                   boxShadow: '0 0 3vw rgba(0, 255, 255, 0.5), inset 0 0 3vw rgba(0, 255, 255, 0.1)',
                   background: 'linear-gradient(135deg, rgba(0, 50, 100, 0.8) 0%, rgba(0, 20, 60, 0.9) 100%)',
-                  padding: '1.5vw',
+                  padding: '.25vw',
                   borderRadius: '1.5vw',
                 }}
               >
@@ -466,16 +497,15 @@ export default function Home() {
                 />
 
                 {/* Stellar Nursery Image Container */}
-                <div className="relative inline-block">
+                <div className="relative inline-block" style={{ padding: '1.5vw' }}>
                   <img
                     src="/stellar_nursery.jpg"
                     alt="Stellar Nursery"
                     className="block rounded-lg"
                     style={{
-                      width: 'min(80vw, 850px)',
+                      width: 'min(50vw, 700px)',
                       height: 'auto',
-                      maxHeight: 'min(60vh, 600px)',
-                      objectFit: 'cover',
+                      objectFit: 'contain',
                       filter: 'brightness(1.1) contrast(1.2) drop-shadow(0 0 2vw rgba(0, 255, 255, 0.3))',
                       border: '0.1vw solid rgba(0, 255, 255, 0.3)',
                       borderRadius: '1.5vw',
@@ -485,11 +515,15 @@ export default function Home() {
                   {/* Interactive Stars */}
                   {/* Star 1 */}
                   <button
-                    onClick={() => router.push('/aboutMe')}
+                    onClick={() => {
+                      // Mark that user is navigating away from home page
+                      sessionStorage.setItem('hasVisitedHomePage', 'true');
+                      router.push('/aboutMe');
+                    }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
-                      left: '10%',
-                      top: '2.25%',
+                      left: '12.2%',
+                      top: '15.4%',
                       width: '1.5vw',
                       height: '1.5vw',
                       color: '#ffffffff',
@@ -500,18 +534,36 @@ export default function Home() {
                       filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
                       animation: 'twinkle 2s infinite',
                     }}
-                    title="Click to learn about me!"
+                    title="Learn about me!"
                   >
                     ✦
                   </button>
 
+                  {/* Star 1 Label */}
+                  <div
+                    className="absolute text-cyan-300 text-center pointer-events-none"
+                    style={{
+                      left: '13.75%',
+                      top: '21.25%',
+                      fontSize: '0.7vw',
+                      textShadow: '0 0 5px rgba(0, 255, 255, 0.6)',
+                      whiteSpace: 'nowrap',
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    About Me
+                  </div>
+
                   {/* Star 2 */}
                   <button
-                    onClick={() => router.push('/aboutMe')}
+                    onClick={() => {
+                      sessionStorage.setItem('hasVisitedHomePage', 'true');
+                      router.push('/aboutMe');
+                    }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
-                      left: '27.6%',
-                      top: '23.1%',
+                      left: '28.6%',
+                      top: '30.25%',
                       width: '1.5vw',
                       height: '1.5vw',
                       color: '#ffffffff',
@@ -522,18 +574,36 @@ export default function Home() {
                       filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
                       animation: 'twinkle 2.5s infinite',
                     }}
-                    title="Click to learn about me!"
+                    title="My Skills!"
                   >
                     ✦
                   </button>
 
+                  {/* Star 2 Label */}
+                  <div
+                    className="absolute text-cyan-300 text-center pointer-events-none"
+                    style={{
+                      left: '30%',
+                      top: '34.5%',
+                      fontSize: '0.7vw',
+                      textShadow: '0 0 5px rgba(0, 255, 255, 0.6)',
+                      whiteSpace: 'nowrap',
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    Skills
+                  </div>
+
                   {/* Star 3 */}
                   <button
-                    onClick={() => router.push('/aboutMe')}
+                    onClick={() => {
+                      sessionStorage.setItem('hasVisitedHomePage', 'true');
+                      router.push('/aboutMe');
+                    }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
-                      left: '38.225%',
-                      top: '24.3%',
+                      left: '38.7%',
+                      top: '31.2%',
                       transform: 'translate(-50%, -50%)',
                       width: '1.5vw',
                       height: '1.5vw',
@@ -545,18 +615,36 @@ export default function Home() {
                       filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
                       animation: 'twinkle 1.8s infinite',
                     }}
-                    title="Click to learn about me!"
+                    title="My Projects!"
                   >
                     ✦
                   </button>
 
+                  {/* Star 3 Label */}
+                  <div
+                    className="absolute text-cyan-300 text-center pointer-events-none"
+                    style={{
+                      left: '40.25%',
+                      top: '35%',
+                      fontSize: '0.7vw',
+                      textShadow: '0 0 5px rgba(0, 255, 255, 0.6)',
+                      whiteSpace: 'nowrap',
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    Projects
+                  </div>
+
                   {/* Star 4 */}
                   <button
-                    onClick={() => router.push('/aboutMe')}
+                    onClick={() => {
+                      sessionStorage.setItem('hasVisitedHomePage', 'true');
+                      router.push('/aboutMe');
+                    }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
-                      left: '28.45%',
-                      bottom: '53.9%',
+                      left: '29.5%',
+                      bottom: '52.5%',
                       width: '1.5vw',
                       height: '1.5vw',
                       color: '#ffffffff',
@@ -567,18 +655,36 @@ export default function Home() {
                       filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
                       animation: 'twinkle 2.2s infinite',
                     }}
-                    title="Click to learn about me!"
+                    title="My Experiences!"
                   >
                     ✦
                   </button>
 
+                  {/* Star 4 Label */}
+                  <div
+                    className="absolute text-cyan-300 text-center pointer-events-none"
+                    style={{
+                      left: '31%',
+                      bottom: '49.75%',
+                      fontSize: '0.7vw',
+                      textShadow: '0 0 5px rgba(0, 255, 255, 0.6)',
+                      whiteSpace: 'nowrap',
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    Experiences
+                  </div>
+
                   {/* Star 5 */}
                   <button
-                    onClick={() => router.push('/aboutMe')}
+                    onClick={() => {
+                      sessionStorage.setItem('hasVisitedHomePage', 'true');
+                      router.push('/aboutMe');
+                    }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
-                      left: '17.9%',
-                      bottom: '48.3%',
+                      left: '19.5%',
+                      bottom: '48.6%',
                       width: '1.5vw',
                       height: '1.5vw',
                       color: '#ffffffff',
@@ -589,24 +695,39 @@ export default function Home() {
                       filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
                       animation: 'twinkle 3s infinite',
                     }}
-                    title="Click to learn about me!"
+                    title="Contact me!"
                   >
                     ✦
                   </button>
+
+                  {/* Star 5 Label */}
+                  <div
+                    className="absolute text-cyan-300 text-center pointer-events-none"
+                    style={{
+                      left: '20.75%',
+                      bottom: '44%',
+                      fontSize: '0.7vw',
+                      textShadow: '0 0 5px rgba(0, 255, 255, 0.6)',
+                      whiteSpace: 'nowrap',
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    Contact
+                  </div>
 
                   {/* Close Button */}
                   <button
                     onClick={() => setShowNavigationScreen(false)}
                     className="absolute flex items-center justify-center text-cyan-400 hover:text-white transition-colors duration-300"
                     style={{
-                      top: '-1vw',
-                      right: '-1vw',
-                      width: '3vw',
-                      height: '3vw',
+                      top: '1vw',
+                      right: '1vw',
+                      width: '2vw',
+                      height: '2vw',
                       backgroundColor: 'rgba(0, 0, 0, 0.7)',
                       border: '0.1vw solid #00FFFF',
                       borderRadius: '50%',
-                      fontSize: '1.5vw',
+                      fontSize: '1vw',
                       fontWeight: 'bold',
                       boxShadow: '0 0 1vw rgba(0, 255, 255, 0.5)',
                     }}
