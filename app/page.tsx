@@ -22,7 +22,7 @@ export default function Home() {
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
-  // Auto-start hologram after blinking animation finishes (6 seconds)
+  // Auto-start hologram after blinking animation finishes
   useEffect(() => {
     if (!hasAutoStarted) {
       const timer = setTimeout(() => {
@@ -38,7 +38,7 @@ export default function Home() {
     }
   }, [hasAutoStarted]);
 
-  // Typewriter effect for current sentence
+  // Typewriter effect
   useEffect(() => {
     if (!isTyping || !showDialog || currentSentenceIndex >= dialogSentences.length) return;
 
@@ -51,7 +51,7 @@ export default function Home() {
         currentIndex++;
       } else {
         setIsTyping(false);
-        setCurrentHologramImage('smile-holo.png'); // Return to default
+        setCurrentHologramImage('smile-holo.png');
         clearInterval(interval);
       }
     }, 50); // Typing speed
@@ -63,22 +63,20 @@ export default function Home() {
   useEffect(() => {
     if (!isTyping && currentText && showDialog) {
       if (currentSentenceIndex < dialogSentences.length - 1) {
-        // More sentences to show - advance to next
         const timer = setTimeout(() => {
           setCurrentSentenceIndex(prev => prev + 1);
           setIsTyping(true);
           setCurrentText('');
-        }, 2000); // 2 second pause between sentences
+        }, 2000); // 2 seconds between sentences
 
         return () => clearTimeout(timer);
       } else {
-        // Last sentence finished - hide dialog after a longer pause
         const timer = setTimeout(() => {
           setShowDialog(false);
           setCurrentText('');
           setCurrentSentenceIndex(0);
           setCurrentHologramImage('smile-holo.png');
-        }, 4000); // 4 second pause after last sentence
+        }, 4000); // 4 seconds after last sentence
 
         return () => clearTimeout(timer);
       }
@@ -198,29 +196,20 @@ export default function Home() {
           <button
             onClick={() => {
               console.log('Hologram button clicked!');
-              if (!showHologram && !showDialog) {
-                // Show hologram and start dialog
+              if (!showHologram) {
                 setShowHologram(true);
                 setShowDialog(true);
                 setIsTyping(true);
                 setCurrentText('');
                 setCurrentSentenceIndex(0);
-                setHasAutoStarted(true); // Mark as manually started
-              } else if (showHologram && !showDialog) {
-                // Hologram visible but no dialog - start dialog
-                setShowDialog(true);
-                setIsTyping(true);
-                setCurrentText('');
-                setCurrentSentenceIndex(0);
+                setHasAutoStarted(true);
               } else {
-                // Dialog is open - close everything
                 setShowDialog(false);
                 setIsTyping(false);
                 setCurrentText('');
                 setShowHologram(false);
                 setCurrentHologramImage('smile-holo.png');
                 setCurrentSentenceIndex(0);
-                // Don't reset hasAutoStarted here - user can still manually control
               }
             }}
             className="relative group bg-yellow-500 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
