@@ -63,7 +63,7 @@ export const NavigationScreen = ({
           {/* Stellar Nursery Image Container */}
           <div className="relative inline-block" style={{ padding: '1.5vw' }}>
             <img
-              src="/stellar_nursery.jpg"
+              src="/components/stellar_nursery.jpg"
               alt="Stellar Nursery"
               className="block rounded-lg"
               style={{

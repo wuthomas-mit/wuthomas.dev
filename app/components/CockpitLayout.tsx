@@ -61,18 +61,18 @@ export const CockpitLayout = ({ aspectRatio, children, isTraveling = false }: Co
         muted
         playsInline
       >
-        <source src="/space_background.mp4" type="video/mp4" />
+        <source src="/videos/space_background.mp4" type="video/mp4" />
       </video>
       
       {/* Video mask to match cockpit shape */}
       <div 
         className="absolute inset-0 w-full h-full z-5"
         style={{
-          WebkitMask: "url('/website_ship.png')",
+          WebkitMask: "url('/components/website_ship.png')",
           WebkitMaskSize: '100% 100%',
           WebkitMaskPosition: 'center',
           WebkitMaskRepeat: 'no-repeat',
-          mask: "url('/website_ship.png')",
+          mask: "url('/components/website_ship.png')",
           maskSize: '100% 100%',
           maskPosition: 'center',
           maskRepeat: 'no-repeat',
@@ -86,13 +86,13 @@ export const CockpitLayout = ({ aspectRatio, children, isTraveling = false }: Co
           muted
           playsInline
         >
-          <source src="/space_background.mp4" type="video/mp4" />
+          <source src="/videos/space_background.mp4" type="video/mp4" />
         </video>
       </div>
       
       {/* Cockpit overlay */}
       <img
-        src="/website_ship.png"
+        src="/components/website_ship.png"
         alt="Cockpit"
         className="absolute inset-0 w-full h-full object-cover z-10"
         style={{
@@ -103,7 +103,7 @@ export const CockpitLayout = ({ aspectRatio, children, isTraveling = false }: Co
       
       {/* Image Caster positioned on cockpit */}
       <img
-        src="/image-caster.png"
+        src="/components/image-caster.png"
         alt="Image Caster"
         className="absolute z-20"
         style={{

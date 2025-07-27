@@ -19,7 +19,7 @@ export default function Home() {
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
   // Custom hooks
-  const { imageDimensions, aspectRatio, isLoading } = useImageDimensions('/website_ship.png');
+  const { imageDimensions, aspectRatio, isLoading } = useImageDimensions('/components/website_ship.png');
   const { isReturningUser, hasCheckedNavigation } = useUserSession();
   const {
     showNavigationScreen,
@@ -113,7 +113,7 @@ export default function Home() {
         loop
         preload="auto"
       >
-        <source src="/space-audio.mp3" type="audio/mpeg" />
+        <source src="/sounds/space-audio.mp3" type="audio/mpeg" />
       </audio>
       
       <audio
@@ -121,14 +121,14 @@ export default function Home() {
         loop
         preload="auto"
       >
-        <source src="/digital-typing.mp3" type="audio/mpeg" />
+        <source src="/sounds/digital-typing.mp3" type="audio/mpeg" />
       </audio>
       
       <audio
         ref={launchAudioRef}
         preload="auto"
       >
-        <source src="/launch-sound-effect.mp3" type="audio/mpeg" />
+        <source src="/sounds/launch-sound-effect.mp3" type="audio/mpeg" />
       </audio>
       
       {/* Blinking screen overlay */}

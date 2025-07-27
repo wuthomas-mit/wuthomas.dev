@@ -159,7 +159,7 @@ export const HologramDialog = ({
 
           <div className="relative flex items-center justify-center w-full h-full">
             <img
-              src="/message.png"
+              src="/icons/message.png"
               alt="Center Icon"
               className="object-contain"
               style={{
