@@ -558,7 +558,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/aboutMe');
+                      router.push('/skills');
                     }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
@@ -598,7 +598,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/aboutMe');
+                      router.push('/projects');
                     }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
@@ -639,7 +639,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/aboutMe');
+                      router.push('/experiences');
                     }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
@@ -679,7 +679,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/aboutMe');
+                      router.push('/contact');
                     }}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
