@@ -453,7 +453,7 @@ export default function Home() {
           <div 
             className="absolute inset-0 flex items-center justify-center z-40 pointer-events-auto"
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              backgroundColor: 'rgba(0, 0, 0, 0.4)',
               backdropFilter: 'blur(0.5vw)',
             }}
           >
