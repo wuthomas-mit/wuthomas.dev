@@ -79,7 +79,7 @@ export const NavigationScreen = ({
             {/* Interactive Stars */}
             {/* Star 1 - About Me */}
             <button
-              onClick={() => onNavigate('/aboutMe', 'About Me')}
+              onClick={() => onNavigate('/pages/aboutMe', 'About Me')}
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '12.2%',
@@ -116,7 +116,7 @@ export const NavigationScreen = ({
 
             {/* Star 2 - Skills */}
             <button
-              onClick={() => onNavigate('/skills', 'Skills')}
+              onClick={() => onNavigate('/pages/skills', 'Skills')}
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '28.6%',
@@ -153,7 +153,7 @@ export const NavigationScreen = ({
 
             {/* Star 3 - Projects */}
             <button
-              onClick={() => onNavigate('/projects', 'Projects')}
+              onClick={() => onNavigate('/pages/projects', 'Projects')}
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '38.7%',
@@ -191,7 +191,7 @@ export const NavigationScreen = ({
 
             {/* Star 4 - Experiences */}
             <button
-              onClick={() => onNavigate('/experiences', 'Experiences')}
+              onClick={() => onNavigate('/pages/experiences', 'Experiences')}
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '29.5%',
@@ -228,7 +228,7 @@ export const NavigationScreen = ({
 
             {/* Star 5 - Contact */}
             <button
-              onClick={() => onNavigate('/contact', 'Contact + Links')}
+              onClick={() => onNavigate('/pages/contact', 'Contact + Links')}
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '19.5%',
