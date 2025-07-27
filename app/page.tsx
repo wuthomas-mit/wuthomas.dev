@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 const hologramImages = ['closed-holo.png', 'open-holo.png', 'wide-holo.png'];
 const dialogSentences = [
@@ -12,6 +13,7 @@ const dialogSentences = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [imageDimensions, setImageDimensions] = useState<{width: number, height: number} | null>(null);
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [showHologram, setShowHologram] = useState(false); // Hidden initially
@@ -479,6 +481,118 @@ export default function Home() {
                       borderRadius: '1.5vw',
                     }}
                   />
+
+                  {/* Interactive Stars */}
+                  {/* Star 1 */}
+                  <button
+                    onClick={() => router.push('/aboutMe')}
+                    className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
+                    style={{
+                      left: '10%',
+                      top: '2.25%',
+                      width: '1.5vw',
+                      height: '1.5vw',
+                      color: '#ffffffff',
+                      fontSize: '1.5vw',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
+                      animation: 'twinkle 2s infinite',
+                    }}
+                    title="Click to learn about me!"
+                  >
+                    ✦
+                  </button>
+
+                  {/* Star 2 */}
+                  <button
+                    onClick={() => router.push('/aboutMe')}
+                    className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
+                    style={{
+                      left: '27.6%',
+                      top: '23.1%',
+                      width: '1.5vw',
+                      height: '1.5vw',
+                      color: '#ffffffff',
+                      fontSize: '1vw',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
+                      animation: 'twinkle 2.5s infinite',
+                    }}
+                    title="Click to learn about me!"
+                  >
+                    ✦
+                  </button>
+
+                  {/* Star 3 */}
+                  <button
+                    onClick={() => router.push('/aboutMe')}
+                    className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
+                    style={{
+                      left: '38.225%',
+                      top: '24.3%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '1.5vw',
+                      height: '1.5vw',
+                      color: '#ffffffff',
+                      fontSize: '1vw',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
+                      animation: 'twinkle 1.8s infinite',
+                    }}
+                    title="Click to learn about me!"
+                  >
+                    ✦
+                  </button>
+
+                  {/* Star 4 */}
+                  <button
+                    onClick={() => router.push('/aboutMe')}
+                    className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
+                    style={{
+                      left: '28.45%',
+                      bottom: '53.9%',
+                      width: '1.5vw',
+                      height: '1.5vw',
+                      color: '#ffffffff',
+                      fontSize: '1vw',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
+                      animation: 'twinkle 2.2s infinite',
+                    }}
+                    title="Click to learn about me!"
+                  >
+                    ✦
+                  </button>
+
+                  {/* Star 5 */}
+                  <button
+                    onClick={() => router.push('/aboutMe')}
+                    className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
+                    style={{
+                      left: '17.9%',
+                      bottom: '48.3%',
+                      width: '1.5vw',
+                      height: '1.5vw',
+                      color: '#ffffffff',
+                      fontSize: '1.5vw',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      filter: 'drop-shadow(0 0 5px rgba(255, 215, 0, 0.8))',
+                      animation: 'twinkle 3s infinite',
+                    }}
+                    title="Click to learn about me!"
+                  >
+                    ✦
+                  </button>
 
                   {/* Close Button */}
                   <button
