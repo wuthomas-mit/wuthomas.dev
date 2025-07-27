@@ -27,10 +27,30 @@ export default function Home() {
   const [showNavigationScreen, setShowNavigationScreen] = useState(false);
   const [isReturningUser, setIsReturningUser] = useState(false);
   const [hasCheckedNavigation, setHasCheckedNavigation] = useState(false);
+  const [isDialogueComplete, setIsDialogueComplete] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [destinationInfo, setDestinationInfo] = useState({ path: '', name: '' });
 
   // Audio refs
   const spaceAudioRef = useRef<HTMLAudioElement>(null);
   const typingAudioRef = useRef<HTMLAudioElement>(null);
+
+  // Function to handle navigation with confirmation
+  const handleNavigation = (path: string, name: string) => {
+    setDestinationInfo({ path, name });
+    setShowConfirmation(true);
+  };
+
+  const confirmNavigation = () => {
+    sessionStorage.setItem('hasVisitedHomePage', 'true');
+    router.push(destinationInfo.path);
+    setShowConfirmation(false);
+  };
+
+  const cancelNavigation = () => {
+    setShowConfirmation(false);
+    setDestinationInfo({ path: '', name: '' });
+  };
 
   // Check navigation type on component mount
   useEffect(() => {
@@ -115,6 +135,7 @@ export default function Home() {
           setCurrentText('');
           setCurrentSentenceIndex(0);
           setCurrentHologramImage('smile-holo.png');
+          setIsDialogueComplete(true); // Mark dialogue as complete
         }, 4000); // 4 seconds after last sentence
 
         return () => clearTimeout(timer);
@@ -380,6 +401,7 @@ export default function Home() {
               border: '2px solid #FFD700',
               borderRadius: '8px',
               boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
+              animation: (isDialogueComplete || isReturningUser) ? 'hologram-button 2s infinite' : 'none',
             }}
           >
             <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></div>
@@ -515,11 +537,7 @@ export default function Home() {
                   {/* Interactive Stars */}
                   {/* Star 1 */}
                   <button
-                    onClick={() => {
-                      // Mark that user is navigating away from home page
-                      sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/aboutMe');
-                    }}
+                    onClick={() => handleNavigation('/aboutMe', 'About Me')}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
                       left: '12.2%',
@@ -556,10 +574,7 @@ export default function Home() {
 
                   {/* Star 2 */}
                   <button
-                    onClick={() => {
-                      sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/skills');
-                    }}
+                    onClick={() => handleNavigation('/skills', 'Skills')}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
                       left: '28.6%',
@@ -596,10 +611,7 @@ export default function Home() {
 
                   {/* Star 3 */}
                   <button
-                    onClick={() => {
-                      sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/projects');
-                    }}
+                    onClick={() => handleNavigation('/projects', 'Projects')}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
                       left: '38.7%',
@@ -637,10 +649,7 @@ export default function Home() {
 
                   {/* Star 4 */}
                   <button
-                    onClick={() => {
-                      sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/experiences');
-                    }}
+                    onClick={() => handleNavigation('/experiences', 'Experiences')}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
                       left: '29.5%',
@@ -677,10 +686,7 @@ export default function Home() {
 
                   {/* Star 5 */}
                   <button
-                    onClick={() => {
-                      sessionStorage.setItem('hasVisitedHomePage', 'true');
-                      router.push('/contact');
-                    }}
+                    onClick={() => handleNavigation('/contact', 'Contact + Links')}
                     className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
                     style={{
                       left: '19.5%',
@@ -712,7 +718,7 @@ export default function Home() {
                       transform: 'translateX(-50%)',
                     }}
                   >
-                    Contact
+                    Contact + Links
                   </div>
 
                   {/* Close Button */}
@@ -733,6 +739,104 @@ export default function Home() {
                     }}
                   >
                     ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Confirmation Popup */}
+        {showConfirmation && (
+          <div 
+            className="absolute inset-0 flex items-center justify-center z-50 pointer-events-auto"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              backdropFilter: 'blur(1vw)',
+            }}
+          >
+            <div className="relative">
+              {/* Confirmation Modal */}
+              <div 
+                className="relative inline-block"
+                style={{
+                  border: '0.3vw solid #00FFFF',
+                  backgroundColor: 'rgba(0, 20, 40, 0.98)',
+                  boxShadow: '0 0 3vw rgba(0, 255, 255, 0.6), inset 0 0 2vw rgba(0, 255, 255, 0.1)',
+                  background: 'linear-gradient(135deg, rgba(40, 20, 0, 0.9) 0%, rgba(20, 10, 40, 0.95) 100%)',
+                  padding: '2vw',
+                  borderRadius: '1.5vw',
+                  minWidth: '25vw',
+                  textAlign: 'center',
+                }}
+              >
+                {/* Title */}
+                <div 
+                  className="text-cyan-300 font-bold mb-4"
+                  style={{
+                    fontSize: '1.5vw',
+                    textShadow: '0 0 1vw rgba(0, 255, 255, 0.8)',
+                    marginBottom: '1.5vw',
+                  }}
+                >
+                  Travel Confirmation
+                </div>
+
+                {/* Message */}
+                <div 
+                  className="text-cyan-300 mb-6"
+                  style={{
+                    fontSize: '1vw',
+                    lineHeight: '1.4',
+                    marginBottom: '2vw',
+                    textShadow: '0 0 0.5vw rgba(0, 255, 255, 0.6)',
+                  }}
+                >
+                  Do you want to travel to<br />
+                  <span className="text-yellow-300 font-semibold">{destinationInfo.name}</span>?
+                </div>
+
+                {/* Buttons */}
+                <div className="flex justify-center space-x-4">
+                  {/* Confirm Button */}
+                  <button
+                    onClick={confirmNavigation}
+                    className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: 'rgba(0, 100, 0, 0.8)',
+                      border: '0.15vw solid #00FF00',
+                      borderRadius: '0.8vw',
+                      padding: '0.8vw 1.5vw',
+                      color: '#00FF00',
+                      fontSize: '0.9vw',
+                      fontWeight: 'bold',
+                      boxShadow: '0 0 1.5vw rgba(0, 255, 0, 0.4)',
+                      cursor: 'pointer',
+                      marginRight: '1vw',
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-green-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></div>
+                    <span className="relative">Yes!</span>
+                  </button>
+
+                  {/* Cancel Button */}
+                  <button
+                    onClick={cancelNavigation}
+                    className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: 'rgba(100, 0, 0, 0.8)',
+                      border: '0.15vw solid #FF0000',
+                      borderRadius: '0.8vw',
+                      padding: '0.8vw 1.5vw',
+                      color: '#FF4444',
+                      fontSize: '0.9vw',
+                      fontWeight: 'bold',
+                      boxShadow: '0 0 1.5vw rgba(255, 0, 0, 0.4)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-red-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></div>
+                    <span className="relative">Not Yet</span>
                   </button>
                 </div>
               </div>
