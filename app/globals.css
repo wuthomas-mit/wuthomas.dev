@@ -100,6 +100,33 @@ html, body {
   }
 }
 
+@keyframes travel-blink {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Persistent travel overlay that survives navigation */
+body.travel-overlay-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 9999;
+  pointer-events: none;
+  animation: travel-overlay-fade 3s ease-in-out forwards;
+}
+
+@keyframes travel-overlay-fade {
+  0% { opacity: 1; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .blink-overlay {
   animation: blinkFadeOut 6s ease-in-out forwards;
   background: black;

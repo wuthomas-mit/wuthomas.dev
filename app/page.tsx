@@ -11,9 +11,9 @@ import { NavigationConfirmation } from './components/NavigationConfirmation';
 import { NavigateButton } from './components/NavigateButton';
 import { VolumeButton } from './components/VolumeButton';
 import { CockpitLayout } from './components/CockpitLayout';
+import { TravelAnimation } from './components/TravelAnimation';
 
 export default function Home() {
-  const [selectedMenu, setSelectedMenu] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [isDialogueComplete, setIsDialogueComplete] = useState(false);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
@@ -26,6 +26,7 @@ export default function Home() {
     setShowNavigationScreen,
     showConfirmation,
     destinationInfo,
+    isTraveling,
     handleNavigation,
     confirmNavigation,
     cancelNavigation,
@@ -48,8 +49,8 @@ export default function Home() {
   }
   
   return (
-    <CockpitLayout aspectRatio={aspectRatio!}>
-      {/* UI Elements container - positioned above the cockpit */}
+    <CockpitLayout aspectRatio={aspectRatio!} isTraveling={isTraveling}>
+      {/* UI Elements container thats above the cockpit */}
       <div className="relative z-20 w-full h-full pointer-events-none">
         {/* Hologram Dialog Component */}
         <HologramDialog
@@ -79,21 +80,28 @@ export default function Home() {
           }}
         />
 
-        {/* Navigation Screen Component */}
-        <NavigationScreen
-          showNavigationScreen={showNavigationScreen}
-          setShowNavigationScreen={setShowNavigationScreen}
-          onNavigate={handleNavigation}
-        />
+        {/* Navigation Screen Component - hidden during travel */}
+        {!isTraveling && (
+          <NavigationScreen
+            showNavigationScreen={showNavigationScreen}
+            setShowNavigationScreen={setShowNavigationScreen}
+            onNavigate={handleNavigation}
+          />
+        )}
 
-        {/* Navigation Confirmation Component */}
-        <NavigationConfirmation
-          showConfirmation={showConfirmation}
-          destinationInfo={destinationInfo}
-          onConfirm={confirmNavigation}
-          onCancel={cancelNavigation}
-        />
+        {/* Navigation Confirmation Component - hidden during travel */}
+        {!isTraveling && (
+          <NavigationConfirmation
+            showConfirmation={showConfirmation}
+            destinationInfo={destinationInfo}
+            onConfirm={confirmNavigation}
+            onCancel={cancelNavigation}
+          />
+        )}
       </div>
+      
+      {/* Travel Animation Overlay */}
+      <TravelAnimation isTraveling={isTraveling} />
       
       {/* Audio elements */}
       <audio

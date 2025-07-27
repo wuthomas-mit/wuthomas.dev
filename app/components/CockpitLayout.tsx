@@ -1,9 +1,47 @@
+import { useRef, useEffect } from 'react';
+
 interface CockpitLayoutProps {
   aspectRatio: number;
   children: React.ReactNode;
+  isTraveling?: boolean;
 }
 
-export const CockpitLayout = ({ aspectRatio, children }: CockpitLayoutProps) => {
+export const CockpitLayout = ({ aspectRatio, children, isTraveling = false }: CockpitLayoutProps) => {
+  const videoRef1 = useRef<HTMLVideoElement>(null);
+  const videoRef2 = useRef<HTMLVideoElement>(null);
+
+  // Handle video speed changes during travel
+  useEffect(() => {
+    if (!isTraveling) {
+      // Reset video speeds
+      if (videoRef1.current) videoRef1.current.playbackRate = 1;
+      if (videoRef2.current) videoRef2.current.playbackRate = 1;
+      return;
+    }
+
+    // Speed up videos over 5 seconds
+    const speedDuration = 5000;
+    const speedStart = Date.now();
+    
+    const speedInterval = setInterval(() => {
+      const elapsed = Date.now() - speedStart;
+      const progress = Math.min(elapsed / speedDuration, 1);
+      
+      // Speed increases from 1x to 8x
+      const newSpeed = 1 + progress * 7;
+      
+      if (videoRef1.current) videoRef1.current.playbackRate = newSpeed;
+      if (videoRef2.current) videoRef2.current.playbackRate = newSpeed;
+      
+      if (progress >= 1) {
+        clearInterval(speedInterval);
+      }
+    }, 16); // ~60fps updates
+
+    return () => {
+      clearInterval(speedInterval);
+    };
+  }, [isTraveling]);
   return (
     <div 
       className="relative bg-black overflow-hidden mx-auto"
@@ -16,6 +54,7 @@ export const CockpitLayout = ({ aspectRatio, children }: CockpitLayoutProps) => 
     >
       {/* Space background video */}
       <video
+        ref={videoRef1}
         className="absolute inset-0 w-full h-full object-cover z-0"
         autoPlay
         loop
@@ -40,6 +79,7 @@ export const CockpitLayout = ({ aspectRatio, children }: CockpitLayoutProps) => 
         }}
       >
         <video
+          ref={videoRef2}
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           loop
