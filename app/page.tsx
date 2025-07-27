@@ -6,6 +6,8 @@ import { useAudioManager } from './hooks/useAudioManager';
 import { HologramDialog } from './components/HologramDialog';
 import { NavigationScreen } from './components/NavigationScreen';
 import { NavigationConfirmation } from './components/NavigationConfirmation';
+import { NavigateButton } from './components/NavigateButton';
+import { VolumeButton } from './components/VolumeButton';
 
 export default function Home() {
   const router = useRouter();
@@ -173,92 +175,23 @@ export default function Home() {
         />
 
         {/* Navigate Button */}
-        <div className="absolute pointer-events-auto" style={{ 
-          left: '50%', 
-          top: '70.75%', 
-          transform: 'translate(-50%, -50%)' 
-        }}>
-          <button
-            onClick={() => {
-              console.log('Navigate button clicked!');
-              setShowNavigationScreen(true);
-            }}
-            className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              width: '11.5vw',
-              height: '6vw',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              border: '2px solid #FFD700',
-              borderRadius: '8px',
-              boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
-              animation: (isDialogueComplete || isReturningUser) ? 'hologram-button 2s infinite' : 'none',
-            }}
-          >
-            <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></div>
-            
-            <div className="relative flex items-center justify-center w-full h-full">
-              <img
-                src="/icons/navigate.png"
-                alt="Navigate"
-                className="object-contain"
-                style={{
-                  width: '2.5vw',
-                  height: '2.5vw',
-                }}
-              />
-            </div>
-          </button>
-        </div>
+        <NavigateButton
+          onClick={() => {
+            console.log('Navigate button clicked!');
+            setShowNavigationScreen(true);
+          }}
+          isDialogueComplete={isDialogueComplete}
+          isReturningUser={isReturningUser}
+        />
 
         {/* Volume Button*/}
-        <div className="absolute pointer-events-auto" style={{ 
-          right: '2%', 
-          top: '2%'
-        }}>
-          <button
-            onClick={() => {
-              console.log('Volume button clicked!');
-              setIsMuted(!isMuted);
-            }}
-            className="relative group transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              width: '3vw',
-              height: '3vw',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              border: '2px solid #FFD700',
-              borderRadius: '50%',
-              boxShadow: '0 0 15px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.2)',
-            }}
-          >
-            <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></div>
-            
-            <div className="relative flex items-center justify-center w-full h-full">
-              <div 
-                className="text-yellow-400"
-                style={{
-                  fontSize: '1.2vw',
-                  fontWeight: 'bold',
-                }}
-              >
-                🔊
-              </div>
-              {/* Muted Line */}
-              {isMuted && (
-                <div 
-                  className="absolute"
-                  style={{
-                    width: '2.5vw',
-                    height: '0.2vw',
-                    backgroundColor: '#FF0000',
-                    transform: 'rotate(45deg)',
-                    borderRadius: '1px',
-                    boxShadow: '0 0 5px rgba(255, 0, 0, 0.8)',
-                  }}
-                />
-              )}
-            </div>
-          </button>
-        </div>
+        <VolumeButton
+          isMuted={isMuted}
+          onToggle={() => {
+            console.log('Volume button clicked!');
+            setIsMuted(!isMuted);
+          }}
+        />
 
         {/* Navigation Screen Component */}
         <NavigationScreen
