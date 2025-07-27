@@ -107,6 +107,12 @@ html, body {
   100% { opacity: 0; }
 }
 
+@keyframes singleBlinkFadeOut {
+  0% { opacity: 1; }       /* fully closed */
+  25% { opacity: 0; }      /* single blink */
+  100% { opacity: 0; }     /* eyes open */
+}
+
 /* Persistent travel overlay that survives navigation */
 body.travel-overlay-active::before {
   content: '';
@@ -129,5 +135,10 @@ body.travel-overlay-active::before {
 
 .blink-overlay {
   animation: blinkFadeOut 6s ease-in-out forwards;
+  background: black;
+}
+
+.blink-overlay-single {
+  animation: singleBlinkFadeOut 2s ease-in-out forwards;
   background: black;
 }

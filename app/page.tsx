@@ -34,7 +34,11 @@ export default function Home() {
 
   // Audio management using custom hook - need isTyping for audio
   const [isTyping, setIsTyping] = useState(false);
-  const { spaceAudioRef, typingAudioRef } = useAudioManager({ isMuted, isTyping });
+  const { spaceAudioRef, typingAudioRef, launchAudioRef } = useAudioManager({ 
+    isMuted, 
+    isTyping, 
+    isTraveling 
+  });
 
   const handleTypingChange = (typing: boolean) => {
     setIsTyping(typing);
@@ -120,8 +124,15 @@ export default function Home() {
         <source src="/digital-typing.mp3" type="audio/mpeg" />
       </audio>
       
+      <audio
+        ref={launchAudioRef}
+        preload="auto"
+      >
+        <source src="/launch-sound-effect.mp3" type="audio/mpeg" />
+      </audio>
+      
       {/* Blinking screen overlay */}
-      <div className="absolute inset-0 z-30 w-full h-full blink-overlay pointer-events-none"></div>
+      <div className={`absolute inset-0 z-30 w-full h-full ${isReturningUser ? 'blink-overlay-single' : 'blink-overlay'} pointer-events-none`}></div>
     </CockpitLayout>
   );
 }
