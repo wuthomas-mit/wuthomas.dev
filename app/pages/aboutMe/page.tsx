@@ -44,36 +44,39 @@ const MeTheme = () => (
       }}
     />
 
-    {/* Right text box */}
+    {/* Upper Right text box */}
     <div
       className="absolute right-[5%] top-[25%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
       style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
     >
       <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Passions...</h3>
       <p className="text-white text-[1.2vw] leading-relaxed">
-        Working in Sports or Education<br />
+        Education Tech<br />
+        Sports Tech <br />
+        Software Engineering, AI <br />
       </p>
     </div>
 
-    {/* Right text box */}
+    {/* Middle Right text box */}
     <div
       className="absolute right-[5%] top-[50%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
       style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
     >
-      <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">What Drives Me...</h3>
+      <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">What drives me...</h3>
       <p className="text-white text-[1.2vw] leading-relaxed">
-        Making an impact.
+        "With great power comes great responsibility." And also: <br />
+        Steak, Pizza, and my Mom's cooking.<br />
       </p>
     </div>
 
-    {/* Right text box */}
+    {/* Bottom Right text box */}
     <div
       className="absolute right-[5%] top-[75%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
       style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
     >
-      <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Coolest Classes...</h3>
+      <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">My current aspiration...</h3>
       <p className="text-white text-[1.2vw] leading-relaxed">
-        6.S041
+        Driving AI-powered education<br />
       </p>
     </div>
 
@@ -85,7 +88,7 @@ const MeTheme = () => (
       <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Currently I'm...</h3>
       <p className="text-white text-[1.2vw] leading-relaxed">
         Studying CS & Management @ MIT<br />
-        Interning at Genius Sports
+        Interning at Genius Sports<br />
       </p>
     </div>
 
