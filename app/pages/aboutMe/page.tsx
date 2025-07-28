@@ -17,84 +17,114 @@ export default function AboutMe() {
   return (
     <div className="min-h-screen w-full text-white relative">
       {/* Background image */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+      <div
+        className="absolute inset-0 w-full h-full"
         style={{
-          backgroundImage: "url('/components/art-background.jpg')"
+          backgroundImage: "url('/components/background-profile.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}
       >
-        {/* Optional overlay for better text readability */}
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+      </div>
+
+      {/* Middle third transparent overlay */}
+      <div className="absolute inset-0 w-full h-full flex">
+        <div className="w-1/3 h-full"></div>
+        <div className="w-1/3 h-full flex flex-col">
+          <div className="h-[12vh]"></div>
+          <div
+            className="flex-1"
+            style={{ backgroundColor: 'rgba(32, 50, 76, 0.7)' }}
+          ></div>
+          <div className="h-[8vh]"></div>
+        </div>
+        <div className="w-1/3 h-full"></div>
       </div>
 
       {/* Content overlay */}
       <div className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center p-8">
         {/* Back button */}
-        <Link 
+        <Link
           href="/"
-          className="absolute top-8 left-8 px-1 py-1 bg-cyan-500 hover:bg-cyan-400 transition-colors rounded-lg font-semibold text-black text-xs"
+          className="absolute top-[2%] left-[2%] px-1 py-1 bg-cyan-500 hover:bg-cyan-400 transition-colors rounded-lg font-semibold text-black text-xs"
         >
           ← Back
         </Link>
 
         {/* Name in top left */}
-        <h1 className="absolute top-20 left-8 text-6xl font-bold text-white font-serif">
+        <h1 className="absolute top-[10%] left-[3%] text-[4vw] font-bold text-white font-serif">
           Thomas Wu
         </h1>
 
-        {/* Hologram image in center */}
-        <img 
-          src="/profile_pictures/armscrossed.png" 
-          alt="Thomas Wu Hologram" 
-          className="max-w-lg max-h-180 object-contain"
+        {/* Image in center */}
+        <img
+          src="/profile_pictures/armscrossed.png"
+          alt="Thomas Wu"
+          className="max-w-[30%] max-h-[40%] object-contain"
         />
 
         {/* Right text box */}
-        <div className="absolute right-8 top-4/20 transform -translate-y-1/2 w-1/4 bg-gray-800 bg-opacity-80 p-6 rounded-lg">
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">Passions + Interests...</h3>
-          <p className="text-white text-sm leading-relaxed">
-            Write about yourself here. This could include your background, interests, education, or anything you'd like to share about your personal journey.
+        <div
+          className="absolute right-[5%] top-[25%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+          style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
+        >
+          <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Passions...</h3>
+          <p className="text-white text-[1.2vw] leading-relaxed">
+            Working in Sports or Education<br />
           </p>
         </div>
 
         {/* Right text box */}
-        <div className="absolute right-8 top-9/20 transform -translate-y-1/2 w-1/4 bg-gray-800 bg-opacity-80 p-6 rounded-lg">
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">What Drives Me...</h3>
-          <p className="text-white text-sm leading-relaxed">
-            Write about yourself here. This could include your background, interests, education, or anything you'd like to share about your personal journey.
+        <div
+          className="absolute right-[5%] top-[50%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+          style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
+        >
+          <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">What Drives Me...</h3>
+          <p className="text-white text-[1.2vw] leading-relaxed">
+            Making an impact.
           </p>
         </div>
 
         {/* Right text box */}
-        <div className="absolute right-8 top-14/20 transform -translate-y-1/2 w-1/4 bg-gray-800 bg-opacity-80 p-6 rounded-lg">
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">Coolest Classes...</h3>
-          <p className="text-white text-sm leading-relaxed">
-            Write about yourself here. This could include your background, interests, education, or anything you'd like to share about your personal journey.
+        <div
+          className="absolute right-[5%] top-[75%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+          style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
+        >
+          <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Coolest Classes...</h3>
+          <p className="text-white text-[1.2vw] leading-relaxed">
+            6.S041
           </p>
         </div>
 
         {/* Lower Left*/}
-        <div className="absolute left-8 bottom-1/8 transform -translate-y-1/2 w-1/4 bg-gray-800 bg-opacity-80 p-6 rounded-lg">
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">Currently I'm...</h3>
-          <p className="text-white text-sm leading-relaxed">
+        <div
+          className="absolute left-[4%] bottom-[4%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+          style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
+        >
+          <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Currently I'm...</h3>
+          <p className="text-white text-[1.2vw] leading-relaxed">
             Studying CS & Management @ MIT<br />
             Interning at Genius Sports
           </p>
         </div>
 
         {/* Hometown Image */}
-        <div className="absolute left-8 top-4/10 transform -translate-y-1/2 w-1/4 bg-gray-800 bg-opacity-80 p-6 rounded-lg">
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">Hometown</h3>
-          <img 
-            src="/components/austin-texas.png" 
-            alt="Austin, Texas" 
-            className="w-full h-70 object-contain rounded-lg mb-4"
+        <div
+          className="absolute left-[4%] top-[45%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+          style={{ backgroundColor: 'rgba(31, 41, 55, 0.6)' }}
+        >
+          <h3 className="text-[1.5vw] font-bold text-cyan-400 mb-[1%]">Hometown</h3>
+          <img
+            src="/components/austin-texas.png"
+            alt="Austin, Texas"
+            className="w-full h-auto max-h-[30vh] object-contain rounded-lg mb-[1%]"
           />
         </div>
 
         {/* Theme selector at bottom */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <select className="bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-2 text-center focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <div className="absolute bottom-[2%] left-1/2 transform -translate-x-1/2">
+          <select className="bg-gray-800 text-white border border-gray-600 rounded-lg px-[1%] py-[0.5%] text-center text-[1vw] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
             <option value="me">🧍🏻</option>
             <option value="chinese">🇨🇳</option>
             <option value="swimming">🏊</option>
