@@ -26,7 +26,7 @@ const MeTheme = () => (
     <img
       src="/profile_pictures/armscrossed-outline.png"
       alt=""
-      className="max-w-[55%] max-h-[80%] object-contain absolute"
+      className="max-w-[55%] max-h-[90%] object-contain absolute"
       style={{
         opacity: 0.7,
         zIndex: 1,
