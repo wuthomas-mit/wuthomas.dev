@@ -14,7 +14,7 @@ export const NavigationScreen = ({
   if (!showNavigationScreen) return null;
 
   return (
-    <div 
+    <div
       className="absolute inset-0 flex items-center justify-center z-40 pointer-events-auto"
       style={{
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -23,7 +23,7 @@ export const NavigationScreen = ({
     >
       <div className="relative">
         {/* Futuristic Screen Frame*/}
-        <div 
+        <div
           className="relative inline-block"
           style={{
             border: '0.3vw solid #00FFFF',
@@ -35,7 +35,7 @@ export const NavigationScreen = ({
           }}
         >
           {/* Top Frame Elements */}
-          <div 
+          <div
             className="absolute left-1/2 transform -translate-x-1/2"
             style={{
               top: '-0.2vw',
@@ -48,7 +48,7 @@ export const NavigationScreen = ({
           />
 
           {/* Grid Pattern Background */}
-          <div 
+          <div
             className="absolute inset-0 opacity-20 pointer-events-none"
             style={{
               backgroundImage: `
@@ -195,7 +195,7 @@ export const NavigationScreen = ({
               className="absolute group transition-all duration-300 hover:scale-125 active:scale-95"
               style={{
                 left: '29.5%',
-                bottom: '52.5%',
+                bottom: '51.95%',
                 width: '1.5vw',
                 height: '1.5vw',
                 color: '#ffffffff',
