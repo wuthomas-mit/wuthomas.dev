@@ -87,7 +87,58 @@ html, body {
   }
 }
 
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 1)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+  }
+}
+
+@keyframes travel-blink {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes singleBlinkFadeOut {
+  0% { opacity: 1; }       /* fully closed */
+  25% { opacity: 0; }      /* single blink */
+  100% { opacity: 0; }     /* eyes open */
+}
+
+/* Persistent travel overlay that survives navigation */
+body.travel-overlay-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 9999;
+  pointer-events: none;
+  animation: travel-overlay-fade 3s ease-in-out forwards;
+}
+
+@keyframes travel-overlay-fade {
+  0% { opacity: 1; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .blink-overlay {
   animation: blinkFadeOut 6s ease-in-out forwards;
+  background: black;
+}
+
+.blink-overlay-single {
+  animation: singleBlinkFadeOut 2s ease-in-out forwards;
   background: black;
 }
