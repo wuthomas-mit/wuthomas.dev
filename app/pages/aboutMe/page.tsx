@@ -28,20 +28,6 @@ export default function AboutMe() {
       >
       </div>
 
-      {/* Middle third transparent overlay */}
-      <div className="absolute inset-0 w-full h-full flex">
-        <div className="w-1/3 h-full"></div>
-        <div className="w-1/3 h-full flex flex-col">
-          <div className="h-[12vh]"></div>
-          <div
-            className="flex-1"
-            style={{ backgroundColor: 'rgba(32, 50, 76, 0.7)' }}
-          ></div>
-          <div className="h-[8vh]"></div>
-        </div>
-        <div className="w-1/3 h-full"></div>
-      </div>
-
       {/* Content overlay */}
       <div className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center p-8">
         {/* Back button */}
@@ -57,11 +43,26 @@ export default function AboutMe() {
           Thomas Wu
         </h1>
 
-        {/* Image in center */}
+        {/* Outline behind main image */}
+        <img
+          src="/profile_pictures/armscrossed-outline.png"
+          alt=""
+          className="max-w-[55%] max-h-[80%] object-contain absolute"
+          style={{
+            opacity: 0.7,
+            zIndex: 1,
+            transform: 'translate(-1%, 1%)'
+          }}
+        />
+
+        {/* Main image */}
         <img
           src="/profile_pictures/armscrossed.png"
           alt="Thomas Wu"
           className="max-w-[30%] max-h-[40%] object-contain"
+          style={{
+            zIndex: 2
+          }}
         />
 
         {/* Right text box */}
