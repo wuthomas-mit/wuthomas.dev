@@ -116,14 +116,35 @@ export default function Contact() {
         </div>
       )}
 
+      {/* Linkedin Snail */}
+      <div
+        className="absolute z-20 cursor-pointer hover:scale-110 transition-transform"
+        style={{
+          left: '57%',
+          bottom: '4%',
+          transform: 'translate(-50%, 0)',
+        }}
+        onClick={() => window.open('https://linkedin.com/in/thomas--wu', '_blank')}
+      >
+        <img
+          src="/components/snail-maplestory.png"
+          alt="LinkedIn Snail"
+          className=""
+          style={{
+            width: '12vw',
+            height: 'auto'
+          }}
+        />
+      </div>
+
       {/* Content container */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-8">
         {/* Back button */}
         <Link
           href="/"
-          className="absolute top-8 left-8 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 transition-colors rounded-lg font-semibold text-black shadow-lg"
+          className="absolute top-8 left-8 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 transition-colors rounded-lg font-semibold text-black shadow-lg z-40"
         >
-          ← Back to Ship
+          ← Back
         </Link>
       </div>
     </div>
