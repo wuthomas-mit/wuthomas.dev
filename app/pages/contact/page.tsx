@@ -7,6 +7,7 @@ export default function Contact() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [showTextBox, setShowTextBox] = useState(false);
+  const [showKaiserTextBox, setShowKaiserTextBox] = useState(false);
 
   useEffect(() => {
     // Clear travel overlay once page is loaded
@@ -24,6 +25,10 @@ export default function Contact() {
 
   const handleDragonClick = () => {
     setShowTextBox(true);
+  };
+
+  const handleKaiserClick = () => {
+    setShowKaiserTextBox(true);
   };
 
   return (
@@ -55,6 +60,27 @@ export default function Contact() {
           className=""
           style={{
             width: '25vw',
+            height: 'auto'
+          }}
+        />
+      </div>
+
+      {/* Kaiser White GIF */}
+      <div
+        className="absolute z-20 group cursor-pointer"
+        style={{
+          left: '35%',
+          bottom: '12%',
+        }}
+        onMouseMove={handleMouseMove}
+        onClick={handleKaiserClick}
+      >
+        <img
+          src="/components/kaiser-white.gif"
+          alt="Kaiser White"
+          className=""
+          style={{
+            width: '20vw',
             height: 'auto'
           }}
         />
@@ -112,6 +138,37 @@ export default function Contact() {
                 </a>
               </p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Kaiser text box that appears to the right of the kaiser */}
+      {showKaiserTextBox && (
+        <div
+          className="absolute z-30 bg-gray-900 bg-opacity-95 text-white p-1 rounded-lg shadow-xl border border-cyan-400"
+          style={{
+            left: '33%',
+            bottom: '17%',
+            width: '170px',
+            transform: 'translate(-50%, 0)',
+          }}
+        >
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xs font-semibold text-cyan-300">Kaiser</h3>
+            <button
+              onClick={() => setShowKaiserTextBox(false)}
+              className="text-gray-400 hover:text-white transition-colors text-xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs">
+              Just here to look cool. <br />
+            </p>
+            <p className="text-xs">
+              Click on the snail, statue, or dragon for the actual stuff.
+            </p>
           </div>
         </div>
       )}
