@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 export default function Contact() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [showTextBox, setShowTextBox] = useState(false);
 
   useEffect(() => {
     // Clear travel overlay once page is loaded
@@ -19,6 +20,10 @@ export default function Contact() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleDragonClick = () => {
+    setShowTextBox(true);
   };
 
   return (
@@ -42,6 +47,7 @@ export default function Contact() {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         onMouseMove={handleMouseMove}
+        onClick={handleDragonClick}
       >
         <img
           src="/components/evan-dragon.gif"
@@ -69,6 +75,44 @@ export default function Contact() {
             alt="Email"
             className="w-8 h-8 opacity-90"
           />
+        </div>
+      )}
+
+      {/* Text box that appears to the left of the dragon */}
+      {showTextBox && (
+        <div
+          className="absolute z-30 bg-gray-900 bg-opacity-95 text-white p-3 rounded-lg shadow-xl border border-cyan-400"
+          style={{
+            left: '52%',
+            top: '20%',
+            width: '160px',
+            transform: 'translate(-50%, 0)',
+          }}
+        >
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-sm font-semibold text-cyan-300">Large Messenger Pidgeon</h3>
+            <button
+              onClick={() => setShowTextBox(false)}
+              className="text-gray-400 hover:text-white transition-colors text-xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <div className="space-y-3">
+            <p className="text-sm">
+
+            </p>
+            <div className="text-sm space-y-1">
+              <p>
+                <a
+                  href="mailto:wuthomas@mit.edu"
+                  className="text-cyan-300 hover:text-cyan-100 underline transition-colors"
+                >
+                  wuthomas@mit.edu
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
