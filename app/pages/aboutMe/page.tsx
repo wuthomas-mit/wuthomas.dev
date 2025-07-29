@@ -166,7 +166,7 @@ export default function AboutMe() {
     <div className="min-h-screen w-full text-white relative">
       {/* Content overlay */}
       <div className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center p-8">
-        {/* Back button - always visible */}
+        {/* Back button */}
         <Link
           href="/"
           className="absolute top-[2%] left-[2%] px-1 py-1 bg-cyan-500 hover:bg-cyan-400 transition-colors rounded-lg font-semibold text-black text-xs z-50"
