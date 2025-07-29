@@ -69,8 +69,9 @@ export default function Contact() {
       <div
         className="absolute z-20 group cursor-pointer"
         style={{
-          left: '35%',
-          bottom: '12%',
+          left: '47%',
+          top: '78%',
+          transform: 'translate(-50%, -50%)',
         }}
         onMouseMove={handleMouseMove}
         onClick={handleKaiserClick}
@@ -148,7 +149,7 @@ export default function Contact() {
           className="absolute z-30 bg-gray-900 bg-opacity-95 text-white p-1 rounded-lg shadow-xl border border-cyan-400"
           style={{
             left: '33%',
-            bottom: '17%',
+            top: '70%',
             width: '170px',
             transform: 'translate(-50%, 0)',
           }}
@@ -178,8 +179,8 @@ export default function Contact() {
         className="absolute z-20 cursor-pointer hover:scale-110 transition-transform"
         style={{
           left: '57%',
-          bottom: '4%',
-          transform: 'translate(-50%, 0)',
+          top: '84%',
+          transform: 'translate(-50%, -50%)',
         }}
         onClick={() => window.open('https://linkedin.com/in/thomas--wu', '_blank')}
       >
@@ -199,7 +200,8 @@ export default function Contact() {
         className="absolute z-20 cursor-pointer hover:scale-110 transition-transform"
         style={{
           left: '35%',
-          bottom: '45%',
+          top: '45%',
+          transform: 'translate(-50%, -50%)',
         }}
         onClick={() => window.open('https://github.com/wuthomas-mit', '_blank')}
       >
