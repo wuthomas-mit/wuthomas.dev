@@ -137,6 +137,26 @@ export default function Contact() {
         />
       </div>
 
+      {/* GitHub Statue */}
+      <div
+        className="absolute z-20 cursor-pointer hover:scale-110 transition-transform"
+        style={{
+          left: '35%',
+          bottom: '45%',
+        }}
+        onClick={() => window.open('https://github.com/wuthomas-mit', '_blank')}
+      >
+        <img
+          src="/components/github-statue.png"
+          alt="GitHub Statue"
+          className=""
+          style={{
+            width: '8vw',
+            height: 'auto'
+          }}
+        />
+      </div>
+
       {/* Content container */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-8">
         {/* Back button */}
