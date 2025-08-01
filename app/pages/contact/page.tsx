@@ -2,12 +2,19 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useGlobalAudioState } from '../../hooks/useGlobalAudioState';
+import { useContactAudioManager } from '../../hooks/useContactAudioManager';
+import { VolumeButton } from '../../components/VolumeButton';
 
 export default function Contact() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [showTextBox, setShowTextBox] = useState(false);
   const [showKaiserTextBox, setShowKaiserTextBox] = useState(false);
+
+  // Audio management
+  const { isMuted, toggleMuted, isInitialized } = useGlobalAudioState();
+  const { mapleAudioRef } = useContactAudioManager({ isMuted, isInitialized });
 
   useEffect(() => {
     // Clear travel overlay once page is loaded
@@ -225,7 +232,22 @@ export default function Contact() {
         >
           ← Back
         </Link>
+
+        {/* Volume Button */}
+        <VolumeButton
+          isMuted={isMuted}
+          onToggle={toggleMuted}
+        />
       </div>
+
+      {/* Audio element */}
+      <audio
+        ref={mapleAudioRef}
+        loop
+        preload="auto"
+      >
+        <source src="/sounds/maple-music.mp3" type="audio/mpeg" />
+      </audio>
     </div>
   );
 }

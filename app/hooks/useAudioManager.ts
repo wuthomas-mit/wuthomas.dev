@@ -4,23 +4,48 @@ interface UseAudioManagerProps {
   isMuted: boolean;
   isTyping: boolean;
   isTraveling?: boolean;
+  isInitialized: boolean;
+  isReturningUser?: boolean;
 }
 
-export const useAudioManager = ({ isMuted, isTyping, isTraveling = false }: UseAudioManagerProps) => {
+export const useAudioManager = ({ 
+  isMuted, 
+  isTyping, 
+  isTraveling = false, 
+  isInitialized,
+  isReturningUser = false 
+}: UseAudioManagerProps) => {
   const spaceAudioRef = useRef<HTMLAudioElement>(null);
   const typingAudioRef = useRef<HTMLAudioElement>(null);
   const launchAudioRef = useRef<HTMLAudioElement>(null);
 
+  // Track when user manually enables audio (user interaction) in sessionStorage
+  useEffect(() => {
+    if (!isMuted && isInitialized) {
+      sessionStorage.setItem('wuthomas-audio-user-interacted', 'true');
+    }
+  }, [isMuted, isInitialized]);
+
   // Audio management for background space audio
   useEffect(() => {
-    if (!spaceAudioRef.current) return;
+    const timer = setTimeout(() => {
+      if (!spaceAudioRef.current || !isInitialized) return;
 
-    if (!isMuted) {
-      spaceAudioRef.current.play().catch(console.error);
-    } else {
-      spaceAudioRef.current.pause();
-    }
-  }, [isMuted]);
+      const hasUserInteracted = sessionStorage.getItem('wuthomas-audio-user-interacted') === 'true';
+      
+      if (!isMuted) {
+        if (isReturningUser || hasUserInteracted) {
+          spaceAudioRef.current.play().catch(() => {
+            // Silently ignore autoplay errors
+          });
+        }
+      } else {
+        spaceAudioRef.current.pause();
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isMuted, isInitialized, isReturningUser]);
 
   // Audio management for typing sound
   useEffect(() => {

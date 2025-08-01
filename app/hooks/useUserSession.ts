@@ -14,10 +14,8 @@ export const useUserSession = () => {
       // If user has visited before in this session OR came from our domain, they're returning
       if (hasVisitedBefore || (referrer && referrer.startsWith(currentDomain))) {
         setIsReturningUser(true);
-        // console.log('User is returning from another page or has visited before');
       } else {
         setIsReturningUser(false);
-        // console.log('User opened the page fresh');
         // Mark that they've now visited the home page
         sessionStorage.setItem('hasVisitedHomePage', 'true');
       }
