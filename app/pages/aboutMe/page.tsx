@@ -37,17 +37,6 @@ const MeTheme = () => (
       }}
     />
 
-    {/* Top Right */}
-    <div
-      className="absolute left-[5%] bottom-[5%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
-    >
-      <h3 className="text-[2vw] font-bold font-serif text-cyan-400 mb-[1%]">Currently I'm...</h3>
-      <p className="text-white text-[1.2vw] leading-relaxed font-serif">
-        Studying CS & Management @ MIT<br />
-        Interning at Genius Sports<br />
-      </p>
-    </div>
-
     {/* Middle Right text box */}
     <div
       className="absolute right-[5%] top-[50%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
@@ -73,9 +62,20 @@ const MeTheme = () => (
       </p>
     </div>
 
+    {/* Left */}
+    <div
+      className="absolute left-[5%] top-[50%] transform -translate-y-1/2 w-[22%] p-[1%] rounded-lg"
+    >
+      <h3 className="text-[2vw] font-bold font-serif text-cyan-400 mb-[1%]">Currently I'm...</h3>
+      <p className="text-white text-[1.2vw] leading-relaxed font-serif">
+        Studying CS & Management @ MIT<br />
+        Interning at Genius Sports<br />
+      </p>
+    </div>
+
     {/* Hometown Image */}
     <div
-      className="absolute left-[4%] top-[54%] transform -translate-y-1/2 w-[15%] p-[2%] rounded-lg"
+      className="absolute left-[4%] top-[75%] transform -translate-y-1/2 w-[15%] p-[2%] rounded-lg"
     >
       <h3 className="text-[2vw] font-bold text-cyan-400 mb-[1%] font-serif">Hometown</h3>
       <img
