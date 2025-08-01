@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAudioManager } from './hooks/useAudioManager';
 import { useNavigationState } from './hooks/useNavigationState';
 import { useImageDimensions } from './hooks/useImageDimensions';
 import { useUserSession } from './hooks/useUserSession';
+import { useGlobalAudioState } from './hooks/useGlobalAudioState';
 import { HologramDialog } from './components/HologramDialog';
 import { NavigationScreen } from './components/NavigationScreen';
 import { NavigationConfirmation } from './components/NavigationConfirmation';
@@ -14,9 +15,11 @@ import { CockpitLayout } from './components/CockpitLayout';
 import { TravelAnimation } from './components/TravelAnimation';
 
 export default function Home() {
-  const [isMuted, setIsMuted] = useState(true);
   const [isDialogueComplete, setIsDialogueComplete] = useState(false);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
+
+  // Global audio state management
+  const { isMuted, toggleMuted, isInitialized } = useGlobalAudioState();
 
   // Custom hooks
   const { imageDimensions, aspectRatio, isLoading } = useImageDimensions('/components/website_ship.png');
@@ -34,10 +37,12 @@ export default function Home() {
 
   // Audio management using custom hook - need isTyping for audio
   const [isTyping, setIsTyping] = useState(false);
-  const { spaceAudioRef, typingAudioRef, launchAudioRef } = useAudioManager({ 
-    isMuted, 
-    isTyping, 
-    isTraveling 
+  const { spaceAudioRef, typingAudioRef, launchAudioRef } = useAudioManager({
+    isMuted,
+    isTyping,
+    isTraveling,
+    isInitialized,
+    isReturningUser,
   });
 
   const handleTypingChange = (typing: boolean) => {
@@ -51,7 +56,7 @@ export default function Home() {
       </div>
     );
   }
-  
+
   return (
     <CockpitLayout aspectRatio={aspectRatio!} isTraveling={isTraveling}>
       {/* UI Elements container thats above the cockpit */}
@@ -79,9 +84,7 @@ export default function Home() {
         {/* Volume Button*/}
         <VolumeButton
           isMuted={isMuted}
-          onToggle={() => {
-            setIsMuted(!isMuted);
-          }}
+          onToggle={toggleMuted}
         />
 
         {/* Navigation Screen Component - hidden during travel */}
@@ -103,10 +106,10 @@ export default function Home() {
           />
         )}
       </div>
-      
+
       {/* Travel Animation Overlay */}
       <TravelAnimation isTraveling={isTraveling} />
-      
+
       {/* Audio elements */}
       <audio
         ref={spaceAudioRef}
@@ -115,7 +118,7 @@ export default function Home() {
       >
         <source src="/sounds/space-audio.mp3" type="audio/mpeg" />
       </audio>
-      
+
       <audio
         ref={typingAudioRef}
         loop
@@ -123,14 +126,14 @@ export default function Home() {
       >
         <source src="/sounds/digital-typing.mp3" type="audio/mpeg" />
       </audio>
-      
+
       <audio
         ref={launchAudioRef}
         preload="auto"
       >
         <source src="/sounds/launch-sound-effect.mp3" type="audio/mpeg" />
       </audio>
-      
+
       {/* Blinking screen overlay */}
       <div className={`absolute inset-0 z-30 w-full h-full ${isReturningUser ? 'blink-overlay-single' : 'blink-overlay'} pointer-events-none`}></div>
     </CockpitLayout>
