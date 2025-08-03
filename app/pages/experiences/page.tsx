@@ -14,6 +14,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
+import SpotifyPlayer from '../../components/SpotifyPlayer';
 
 interface IconPosition {
   x: number;
@@ -70,6 +71,7 @@ export default function Contact() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [showSpotifyBox, setShowSpotifyBox] = useState(false);
+  const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false);
   const [showFolderBox, setShowFolderBox] = useState(false);
 
   // Icon positions
@@ -174,7 +176,7 @@ export default function Contact() {
   };
 
   const handleSpotifyClick = () => {
-    setShowSpotifyBox(true);
+    setShowSpotifyPlayer(true);
   };
 
   const handleFolderClick = () => {
@@ -532,6 +534,11 @@ export default function Contact() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Spotify Player */}
+        {showSpotifyPlayer && (
+          <SpotifyPlayer onClose={() => setShowSpotifyPlayer(false)} />
         )}
       </div>
     </DndContext>
